@@ -28,7 +28,7 @@ This repository contains comprehensive penetration testing reports and writeups 
 ##### 1. **Explorer** 
 - **Type:** Penetration Testing Report
 - **Target System:** alexriveraexplorer.hv (172.20.36.127)
-- **Difficulty:** Advanced
+- **Difficulty:** Easy
 - **Files:**
   - [English Report](/hackviser/explorer/Explorer_writeup_EN.md)
   - [Turkish Report](/hackviser/explorer/Explorer_writeup_TR.md)
@@ -45,7 +45,7 @@ This repository contains comprehensive penetration testing reports and writeups 
 ##### 2. **PasteZone**
 - **Type:** Penetration Testing Report
 - **Target System:** pastezone.hv (172.20.5.99)
-- **Difficulty:** Advanced
+- **Difficulty:** Easy
 - **Files:**
   - [English Report](/hackviser/pastezone/Pastezone%20writeup.md)
   - [Turkish Report](/hackviser/pastezone/Pastezone%20writeup%20tr.md)
@@ -127,7 +127,7 @@ Bu depo, çeşitli hedef sistemler üzerinde yürütülen güvenlik değerlendir
 ##### 1. **Explorer**
 - **Tür:** Sızma Testi Raporu
 - **Hedef Sistem:** alexriveraexplorer.hv (172.20.36.127)
-- **Zorluk Seviyesi:** İleri
+- **Zorluk Seviyesi:** Kolay
 - **Dosyalar:**
   - [İngilizce Rapor](/hackviser/explorer/Explorer_writeup_EN.md)
   - [Türkçe Rapor](/hackviser/explorer/Explorer_writeup_TR.md)
@@ -144,7 +144,7 @@ Bu depo, çeşitli hedef sistemler üzerinde yürütülen güvenlik değerlendir
 ##### 2. **PasteZone**
 - **Tür:** Sızma Testi Raporu
 - **Hedef Sistem:** pastezone.hv (172.20.5.99)
-- **Zorluk Seviyesi:** İleri
+- **Zorluk Seviyesi:** Kolay
 - **Dosyalar:**
   - [İngilizce Rapor](/hackviser/pastezone/Pastezone%20writeup.md)
   - [Türkçe Rapor](/hackviser/pastezone/Pastezone%20writeup%20tr.md)

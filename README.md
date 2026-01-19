@@ -32,7 +32,6 @@ This repository contains comprehensive penetration testing reports and writeups 
 - **Files:**
   - [English Report](/hackviser/explorer/Explorer_writeup_EN.md)
   - [Turkish Report](/hackviser/explorer/Explorer_writeup_TR.md)
-  - [Original Report](/hackviser/explorer/explorer%20writeup.md)
 
 **Key Vulnerabilities:**
 - Information disclosure via SNMP with default community string

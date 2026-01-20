@@ -1,4 +1,4 @@
-# PasteZone Penetration Testing Report
+# PasteZone Penetration Testing Report (Writeup)
 
   
 

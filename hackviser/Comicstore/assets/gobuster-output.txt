@@ -1,0 +1,45 @@
+                                                                                             
+┌──(macallan㉿kali)-[~/Downloads/Hackviser/writeup]
+└─$ gobuster dir -u http://172.20.14.166 -w /usr/share/wordlists/dirb/common.txt -x php,html,txt               
+===============================================================
+Gobuster v3.8.2
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://172.20.14.166
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/wordlists/dirb/common.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.8.2
+[+] Extensions:              php,html,txt
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+.hta.php             (Status: 403) [Size: 278]
+.hta.txt             (Status: 403) [Size: 278]
+.hta.html            (Status: 403) [Size: 278]
+.hta                 (Status: 403) [Size: 278]
+.htaccess            (Status: 403) [Size: 278]
+.htaccess.php        (Status: 403) [Size: 278]
+.htaccess.html       (Status: 403) [Size: 278]
+.htaccess.txt        (Status: 403) [Size: 278]
+.htpasswd            (Status: 403) [Size: 278]
+.htpasswd.php        (Status: 403) [Size: 278]
+.htpasswd.html       (Status: 403) [Size: 278]
+.htpasswd.txt        (Status: 403) [Size: 278]
+_notes               (Status: 301) [Size: 315] [--> http://172.20.14.166/_notes/]
+0                    (Status: 200) [Size: 28761]
+admin                (Status: 302) [Size: 0] [--> http://comicstore.hv/wp-admin/]
+atom                 (Status: 200) [Size: 23215]
+dashboard            (Status: 302) [Size: 0] [--> http://comicstore.hv/wp-admin/]
+embed                (Status: 200) [Size: 28761]
+favicon.ico          (Status: 302) [Size: 0] [--> http://comicstore.hv/wp-includes/images/w-logo-blue-white-bg.png]
+feed                 (Status: 200) [Size: 21857]
+index.php            (Status: 200) [Size: 28761]
+index.php            (Status: 200) [Size: 28761]
+javascript           (Status: 301) [Size: 319] [--> http://172.20.14.166/javascript/]
+license.txt          (Status: 200) [Size: 19915]
+login                (Status: 302) [Size: 0] [--> http://comicstore.hv/wp-login.php]
+login.php            (Status: 302) [Size: 0] [--> http://comicstore.hv/wp-login.php]
+page1                (Status: 200) [Size: 28761]

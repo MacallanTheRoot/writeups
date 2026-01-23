@@ -1,0 +1,20 @@
+Starting Nmap 7.98 ( https://nmap.org ) at 2026-01-23 15:24 +0300
+Nmap scan report for comicstore.hv (172.20.14.166)
+Host is up (0.073s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 9.2p1 Debian 2+deb12u2 (protocol 2.0)
+| ssh-hostkey: 
+|   256 f1:d3:3d:0e:44:58:c2:6e:7c:32:e2:9f:aa:d4:32:40 (ECDSA)
+|_  256 10:6f:37:a1:79:c5:15:08:9c:23:44:ea:24:10:84:27 (ED25519)
+80/tcp   open  http    Apache httpd 2.4.57 ((Debian))
+| http-robots.txt: 1 disallowed entry 
+|_/wp-admin/
+|_http-generator: WordPress 6.5.2
+|_http-server-header: Apache/2.4.57 (Debian)
+|_http-title: Comic Store
+3306/tcp open  mysql   MariaDB 10.3.23 or earlier (unauthorized)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 13.41 seconds

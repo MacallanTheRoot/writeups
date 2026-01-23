@@ -1,0 +1,1581 @@
+johnny@comicstore:/tmp$ ./linpeas.sh
+
+
+
+                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+                    ▄▄▄▄▄▄▄             ▄▄▄▄▄▄▄▄
+             ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄
+         ▄▄▄▄     ▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄
+         ▄    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄          ▄▄▄▄▄▄               ▄▄▄▄▄▄ ▄
+         ▄▄▄▄▄▄              ▄▄▄▄▄▄▄▄                 ▄▄▄▄ 
+         ▄▄                  ▄▄▄ ▄▄▄▄▄                  ▄▄▄
+         ▄▄                ▄▄▄▄▄▄▄▄▄▄▄▄                  ▄▄
+         ▄            ▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄   ▄▄
+         ▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄                                ▄▄▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄                       ▄▄▄▄▄▄     ▄▄▄▄
+         ▄▄▄▄   ▄▄▄▄▄                       ▄▄▄▄▄      ▄ ▄▄
+         ▄▄▄▄▄  ▄▄▄▄▄        ▄▄▄▄▄▄▄        ▄▄▄▄▄     ▄▄▄▄▄
+         ▄▄▄▄▄▄  ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄   ▄▄▄▄▄ 
+          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄        ▄          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ 
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄                       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+          ▀▀▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▀▀▀▀▀▀
+               ▀▀▀▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▀▀
+                     ▀▀▀▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▀▀▀
+
+    /---------------------------------------------------------------------------------\
+    |                             Do you like PEASS?                                  |
+    |---------------------------------------------------------------------------------|
+    |         Learn Cloud Hacking       :     https://training.hacktricks.xyz         |
+    |         Follow on Twitter         :     @hacktricks_live                        |
+    |         Respect on HTB            :     SirBroccoli                             |
+    |---------------------------------------------------------------------------------|
+    |                                 Thank you!                                      |
+    \---------------------------------------------------------------------------------/
+          LinPEAS-ng by carlospolop
+
+ADVISORY: This script should be used for authorized penetration testing and/or educational purposes only. Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own computers and/or with the computer owner's permission.
+
+Linux Privesc Checklist: https://book.hacktricks.wiki/en/linux-hardening/linux-privilege-escalation-checklist.html
+ LEGEND:                                                                                     
+  RED/YELLOW: 95% a PE vector
+  RED: You should take a look into it
+  LightCyan: Users with console
+  Blue: Users without console & mounted devs
+  Green: Common things (users, groups, SUID/SGID, mounts, .sh scripts, cronjobs) 
+  LightMagenta: Your username
+
+ Starting LinPEAS. Caching Writable Folders...
+                               ╔═══════════════════╗
+═══════════════════════════════╣ Basic information ╠═══════════════════════════════          
+                               ╚═══════════════════╝                                         
+OS: Linux version 6.1.0-18-amd64 (debian-kernel@lists.debian.org) (gcc-12 (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP PREEMPT_DYNAMIC Debian 6.1.76-1 (2024-02-01)
+User & Groups: uid=1000(johnny) gid=1000(johnny) groups=1000(johnny)
+Hostname: comicstore
+
+[+] /usr/bin/ping is available for network discovery (LinPEAS can discover hosts, learn more with -h)                                                                                     
+[+] /usr/bin/bash is available for network discovery, port scanning and port forwarding (LinPEAS can discover hosts, scan ports, and forward ports. Learn more with -h)                   
+[+] /usr/bin/nc is available for network discovery & port scanning (LinPEAS can discover hosts and scan ports, learn more with -h)                                                        
+                                                                                             
+
+Caching directories . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . DONE                                                                            
+                                                                                                                                                                                             
+                              ╔════════════════════╗
+══════════════════════════════╣ System Information ╠══════════════════════════════                                                                                                           
+                              ╚════════════════════╝                                                                                                                                         
+╔══════════╣ Operative system
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#kernel-exploits                                                                                            
+Linux version 6.1.0-18-amd64 (debian-kernel@lists.debian.org) (gcc-12 (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP PREEMPT_DYNAMIC Debian 6.1.76-1 (2024-02-01)  
+Distributor ID: Debian
+Description:    Debian GNU/Linux 12 (bookworm)
+Release:        12
+Codename:       bookworm
+
+╔══════════╣ Sudo version
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-version                                                                                               
+Sudo version 1.9.13p3                                                                                                                                                                        
+
+
+╔══════════╣ PATH
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-path-abuses                                                                                       
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games                                                                                                                                     
+
+╔══════════╣ Date & uptime
+Fri Jan 23 07:37:29 AM EST 2026                                                                                                                                                              
+ 07:37:29 up 14 min,  1 user,  load average: 0.52, 3.55, 2.95
+
+╔══════════╣ Unmounted file-system?
+╚ Check if you can mount umounted devices                                                                                                                                                    
+UUID=d6ebb7c5-bd24-4794-a30f-4e73320d03de /               ext4    errors=remount-ro 0       1                                                                                                
+/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto     0       0
+
+╔══════════╣ Any sd*/disk* disk in /dev? (limit 20)
+disk                                                                                                                                                                                         
+sda
+sda1
+sda2
+sda5
+
+╔══════════╣ Environment
+╚ Any private information inside environment variables?                                                                                                                                      
+USER=johnny                                                                                                                                                                                  
+SSH_CLIENT=10.8.73.133 37054 22
+SHLVL=1
+MOTD_SHOWN=pam
+HOME=/home/johnny
+OLDPWD=/
+SSH_TTY=/dev/pts/0
+LOGNAME=johnny
+_=./linpeas.sh
+TERM=xterm-256color
+XDG_RUNTIME_DIR=/run/user/1000
+LANG=en_US.UTF-8
+SHELL=/bin/bash
+PWD=/tmp
+SSH_CONNECTION=10.8.73.133 37054 172.20.14.166 22
+
+╔══════════╣ Searching Signature verification failed in dmesg
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#dmesg-signature-verification-failed                                                                        
+dmesg Not Found                                                                                                                                                                              
+                                                                                                                                                                                             
+╔══════════╣ Executing Linux Exploit Suggester
+╚ https://github.com/mzet-/linux-exploit-suggester                                                                                                                                           
+[+] [CVE-2022-2586] nft_object UAF                                                                                                                                                           
+
+   Details: https://www.openwall.com/lists/oss-security/2022/08/29/5
+   Exposure: less probable
+   Tags: ubuntu=(20.04){kernel:5.12.13}
+   Download URL: https://www.openwall.com/lists/oss-security/2022/08/29/5/1
+   Comments: kernel.unprivileged_userns_clone=1 required (to obtain CAP_NET_ADMIN)
+
+[+] [CVE-2021-3156] sudo Baron Samedit
+
+   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
+   Exposure: less probable
+   Tags: mint=19,ubuntu=18|20, debian=10
+   Download URL: https://codeload.github.com/blasty/CVE-2021-3156/zip/main
+
+[+] [CVE-2021-3156] sudo Baron Samedit 2
+
+   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
+   Exposure: less probable
+   Tags: centos=6|7|8,ubuntu=14|16|17|18|19|20, debian=9|10
+   Download URL: https://codeload.github.com/worawit/CVE-2021-3156/zip/main
+
+[+] [CVE-2021-22555] Netfilter heap out-of-bounds write
+
+   Details: https://google.github.io/security-research/pocs/linux/cve-2021-22555/writeup.html
+   Exposure: less probable
+   Tags: ubuntu=20.04{kernel:5.8.0-*}
+   Download URL: https://raw.githubusercontent.com/google/security-research/master/pocs/linux/cve-2021-22555/exploit.c
+   ext-url: https://raw.githubusercontent.com/bcoles/kernel-exploits/master/CVE-2021-22555/exploit.c
+   Comments: ip_tables kernel module must be loaded
+
+
+╔══════════╣ Protections
+═╣ AppArmor enabled? .............. You do not have enough privilege to read the profile set.                                                                                                
+apparmor module is loaded.
+═╣ AppArmor profile? .............. unconfined
+═╣ is linuxONE? ................... s390x Not Found
+═╣ grsecurity present? ............ grsecurity Not Found                                                                                                                                     
+═╣ PaX bins present? .............. PaX Not Found                                                                                                                                            
+═╣ Execshield enabled? ............ Execshield Not Found                                                                                                                                     
+═╣ SELinux enabled? ............... sestatus Not Found                                                                                                                                       
+═╣ Seccomp enabled? ............... disabled                                                                                                                                                 
+═╣ User namespace? ................ enabled
+═╣ Cgroup2 enabled? ............... enabled
+═╣ Is ASLR enabled? ............... Yes
+═╣ Printer? ....................... No
+═╣ Is this a virtual machine? ..... Yes (kvm)                                                                                                                                                
+
+╔══════════╣ Kernel Modules Information
+══╣ Kernel modules with weak perms?                                                                                                                                                          
+                                                                                                                                                                                             
+══╣ Kernel modules loadable? 
+Modules can be loaded                                                                                                                                                                        
+
+
+
+                                   ╔═══════════╗
+═══════════════════════════════════╣ Container ╠═══════════════════════════════════                                                                                                          
+                                   ╚═══════════╝                                                                                                                                             
+╔══════════╣ Container related tools present (if any):
+/usr/sbin/apparmor_parser                                                                                                                                                                    
+/usr/bin/nsenter
+/usr/bin/unshare
+/usr/sbin/chroot
+/usr/sbin/capsh
+/usr/sbin/setcap
+/usr/sbin/getcap
+
+╔══════════╣ Container details
+═╣ Is this a container? ........... No                                                                                                                                                       
+═╣ Any running containers? ........ No                                                                                                                                                       
+                                                                                                                                                                                             
+
+
+                                     ╔═══════╗
+═════════════════════════════════════╣ Cloud ╠═════════════════════════════════════                                                                                                          
+                                     ╚═══════╝                                                                                                                                               
+Learn and practice cloud hacking techniques in https://training.hacktricks.xyz
+                                                                                                                                                                                             
+═╣ GCP Virtual Machine? ................. No
+═╣ GCP Cloud Funtion? ................... No
+═╣ AWS ECS? ............................. No
+═╣ AWS EC2? ............................. No
+═╣ AWS EC2 Beanstalk? ................... No
+═╣ AWS Lambda? .......................... No
+═╣ AWS Codebuild? ....................... No
+═╣ DO Droplet? .......................... No
+═╣ IBM Cloud VM? ........................ No
+═╣ Azure VM or Az metadata? ............. No
+═╣ Azure APP or IDENTITY_ENDPOINT? ...... No
+═╣ Azure Automation Account? ............ No
+═╣ Aliyun ECS? .......................... No
+═╣ Tencent CVM? ......................... No
+
+
+
+                ╔════════════════════════════════════════════════╗
+════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════                                                                                                           
+                ╚════════════════════════════════════════════════╝                                                                                                                           
+╔══════════╣ Running processes (cleaned)
+╚ Check weird & unexpected processes run by root: https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#processes                                                  
+root           1  0.2  1.2 102084 12068 ?        Ss   07:23   0:02 /sbin/init                                                                                                                
+root         217  0.0  0.8  19092  8224 ?        Ss   07:23   0:00 /lib/systemd/systemd-journald
+root         242  0.0  0.6  25844  5828 ?        Ss   07:23   0:00 /lib/systemd/systemd-udevd
+systemd+     256  0.0  0.6  90056  6576 ?        Ssl  07:23   0:00 /lib/systemd/systemd-timesyncd
+  └─(Caps) 0x0000000002000000=cap_sys_time
+root         355  0.0  0.3   5868  3584 ?        Ss   07:23   0:00 dhclient -4 -v -i -pf /run/dhclient.enp1s0.pid -lf /var/lib/dhcp/dhclient.enp1s0.leases -I -df /var/lib/dhcp/dhclient6.enp1s0.leases enp1s0
+root         423  0.0  0.1   6608  1208 ?        Ss   07:23   0:00 /usr/sbin/cron -f
+message+     424  0.0  0.5   9244  5024 ?        Ss   07:23   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+  └─(Caps) 0x0000000020000000=cap_audit_write
+root         433  0.0  0.3  80240  3712 ?        Ssl  07:23   0:00 /usr/sbin/qemu-ga
+root         441  0.0  0.8  16972  7800 ?        Ss   07:23   0:00 /lib/systemd/systemd-logind
+root         455  0.0  0.1   5872  1028 tty1     Ss+  07:23   0:00 /sbin/agetty -o -p -- u --noclear - linux
+johnny       793  0.0  0.8  19100  8140 ?        S    07:28   0:00      _ sshd: johnny@pts/0
+johnny       794  0.0  0.5   8120  5100 pts/0    Ss   07:28   0:00          _ -bash
+johnny     21534  0.4  0.2   3412  2604 pts/0    S+   07:37   0:00              _ /bin/sh ./linpeas.sh
+johnny     24400  0.0  0.1   3412  1064 pts/0    S+   07:37   0:00                  _ /bin/sh ./linpeas.sh
+johnny     24404  0.0  0.4  11084  4396 pts/0    R+   07:37   0:00                  |   _ ps fauxwww
+johnny     24403  0.0  0.1   3412  1064 pts/0    S+   07:37   0:00                  _ /bin/sh ./linpeas.sh
+root         502  0.0  4.4 284844 43124 ?        Ss   07:23   0:00 /usr/sbin/apache2 -k start
+www-data     675  2.7  5.5 362632 53680 ?        S    07:23   0:23  _ /usr/sbin/apache2 -k start
+www-data     701  2.9  5.3 288780 51676 ?        S    07:23   0:24  _ /usr/sbin/apache2 -k start
+www-data     703  2.7  5.2 288708 50324 ?        S    07:23   0:22  _ /usr/sbin/apache2 -k start
+www-data     739  3.1  5.3 362048 51976 ?        S    07:24   0:25  _ /usr/sbin/apache2 -k start
+www-data     740  3.0  5.8 362480 56428 ?        S    07:24   0:24  _ /usr/sbin/apache2 -k start
+www-data     770  2.5  5.0 288508 48468 ?        S    07:26   0:17  _ /usr/sbin/apache2 -k start
+www-data     772  2.5  4.9 288316 48004 ?        S    07:26   0:17  _ /usr/sbin/apache2 -k start
+www-data     773  2.4  5.1 288776 49280 ?        S    07:26   0:16  _ /usr/sbin/apache2 -k start
+www-data     805  2.2  5.0 288512 48688 ?        S    07:28   0:12  _ /usr/sbin/apache2 -k start
+www-data     807  1.7  4.9 288316 48004 ?        S    07:28   0:09  _ /usr/sbin/apache2 -k start
+mysql        568  5.1 25.4 1093244 245724 ?      Ssl  07:23   0:44 /usr/sbin/mariadbd
+johnny       782  0.0  1.0  18836 10556 ?        Ss   07:28   0:00 /lib/systemd/systemd --user
+johnny       783  0.0  0.3 102964  2976 ?        S    07:28   0:00  _ (sd-pam)
+johnny     13890  0.0  0.4   8988  4396 ?        Ss   07:34   0:00  _ /usr/bin/dbus-daemon[0m --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+johnny     14028  0.0  0.0   6932   260 pts/0    S    07:34   0:00 bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | xxd -p -r >&3; dd bs=9000 count=1 <&3 2>/dev/null | xxd ) 3>/dev/udp/1.1.1.1/53 && echo "DNS accessible") | grep "accessible" && exit 0 ) 2>/dev/null || echo "DNS is not accessible"
+johnny     14034  0.0  0.0   6932   260 pts/0    S    07:34   0:00  _ bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | xxd -p -r >&3; dd bs=9000 count=1 <&3 2>/dev/null | xxd ) 3>/dev/udp/1.1.1.1/53 && echo "DNS accessible") | grep "accessible" && exit 0 ) 2>/dev/null || echo "DNS is not accessible"
+johnny     14040  0.0  0.1   6932  1800 pts/0    S    07:34   0:00  |   _ bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | xxd -p -r >&3; dd bs=9000 count=1 <&3 2>/dev/null | xxd ) 3>/dev/udp/1.1.1.1/53 && echo "DNS accessible") | grep "accessible" && exit 0 ) 2>/dev/null || echo "DNS is not accessible"
+johnny     14046  0.0  0.0   5512   856 pts/0    S    07:34   0:00  |       _ dd bs=9000 count=1
+johnny     14035  0.0  0.2   6332  2248 pts/0    S    07:34   0:00  _ grep accessible
+
+╔══════════╣ Processes with unusual configurations
+Process 355 (root) - dhclient -4 -v -i -pf /run/dhclient.enp1s0.pid -lf /var/lib/dhcp/dhclient.enp1s0.leases -I -df /var/                                                                    
+SELinux context: /{,usr/}sbin/dhclient (enforce)
+  └─ AppArmor profile: /{,usr/}sbin/dhclient (enforce)
+
+
+╔══════════╣ Processes with credentials in memory (root req)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#credentials-from-process-memory                                                                            
+gdm-password Not Found                                                                                                                                                                       
+gnome-keyring-daemon Not Found                                                                                                                                                               
+lightdm Not Found                                                                                                                                                                            
+vsftpd Not Found                                                                                                                                                                             
+apache2 process found (dump creds from memory as root)                                                                                                                                       
+sshd: process found (dump creds from memory as root)
+mysql process found (dump creds from memory as root)
+postgres Not Found
+redis-server Not Found                                                                                                                                                                       
+mongod Not Found                                                                                                                                                                             
+memcached Not Found                                                                                                                                                                          
+elasticsearch Not Found                                                                                                                                                                      
+jenkins Not Found                                                                                                                                                                            
+tomcat Not Found                                                                                                                                                                             
+nginx Not Found                                                                                                                                                                              
+php-fpm Not Found                                                                                                                                                                            
+supervisord Not Found                                                                                                                                                                        
+vncserver Not Found                                                                                                                                                                          
+xrdp Not Found                                                                                                                                                                               
+teamviewer Not Found                                                                                                                                                                         
+                                                                                                                                                                                             
+╔══════════╣ Opened Files by processes
+Process 782 (johnny) - /lib/systemd/systemd --user                                                                                                                                           
+  └─ Has open files:
+    └─ /proc/782/mountinfo
+    └─ /proc/swaps
+    └─ /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service
+Process 794 (johnny) - -bash 
+  └─ Has open files:
+    └─ /dev/pts/0
+Process 14028 (johnny) - bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | x
+  └─ Has open files:
+    └─ /tmp/linpeas-output.txt
+Process 14034 (johnny) - bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | x
+  └─ Has open files:
+    └─ pipe:[272376]
+Process 14035 (johnny) - grep accessible 
+  └─ Has open files:
+    └─ pipe:[272376]
+    └─ /tmp/linpeas-output.txt
+Process 14040 (johnny) - bash -c ((( echo cfc9 0100 0001 0000 0000 0000 0a64 7563 6b64 7563 6b67 6f03 636f 6d00 0001 0001 | x
+  └─ Has open files:
+    └─ pipe:[272376]
+Process 14046 (johnny) - dd bs=9000 count=1 
+  └─ Has open files:
+    └─ pipe:[272397]
+
+╔══════════╣ Processes with memory-mapped credential files
+                                                                                                                                                                                             
+╔══════════╣ Processes whose PPID belongs to a different user (not root)
+╚ You will know if a user can somehow spawn processes as a different user                                                                                                                    
+                                                                                                                                                                                             
+╔══════════╣ Files opened by processes belonging to other users
+╚ This is usually empty because of the lack of privileges to read other user processes information                                                                                           
+                                                                                                                                                                                             
+╔══════════╣ Check for vulnerable cron jobs
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scheduledcron-jobs                                                                                         
+══╣ Cron jobs list                                                                                                                                                                           
+/usr/bin/crontab                                                                                                                                                                             
+incrontab Not Found
+-rw-r--r-- 1 root root    1042 Mar  2  2023 /etc/crontab                                                                                                                                     
+
+/etc/cron.d:
+total 20
+drwxr-xr-x  2 root root 4096 Jan 18  2024 .
+drwxr-xr-x 78 root root 4096 Jan 23 07:23 ..
+-rw-r--r--  1 root root  201 Mar  4  2023 e2scrub_all
+-rw-r--r--  1 root root  712 Jul 13  2022 php
+-rw-r--r--  1 root root  102 Mar  2  2023 .placeholder
+
+/etc/cron.daily:
+total 32
+drwxr-xr-x  2 root root 4096 Jan 16  2024 .
+drwxr-xr-x 78 root root 4096 Jan 23 07:23 ..
+-rwxr-xr-x  1 root root  539 Jun  9  2022 apache2
+-rwxr-xr-x  1 root root 1478 May 25  2023 apt-compat
+-rwxr-xr-x  1 root root  123 Mar 26  2023 dpkg
+-rwxr-xr-x  1 root root  377 Dec 14  2022 logrotate
+-rwxr-xr-x  1 root root 1395 Mar 12  2023 man-db
+-rw-r--r--  1 root root  102 Mar  2  2023 .placeholder
+
+/etc/cron.hourly:
+total 12
+drwxr-xr-x  2 root root 4096 Jan 16  2024 .
+drwxr-xr-x 78 root root 4096 Jan 23 07:23 ..
+-rw-r--r--  1 root root  102 Mar  2  2023 .placeholder
+
+/etc/cron.monthly:
+total 12
+drwxr-xr-x  2 root root 4096 Jan 16  2024 .
+drwxr-xr-x 78 root root 4096 Jan 23 07:23 ..
+-rw-r--r--  1 root root  102 Mar  2  2023 .placeholder
+
+/etc/cron.weekly:
+total 16
+drwxr-xr-x  2 root root 4096 Jan 16  2024 .
+drwxr-xr-x 78 root root 4096 Jan 23 07:23 ..
+-rwxr-xr-x  1 root root 1055 Mar 12  2023 man-db
+-rw-r--r--  1 root root  102 Mar  2  2023 .placeholder
+
+/etc/cron.yearly:
+total 12
+drwxr-xr-x  2 root root 4096 Jan 16  2024 .
+drwxr-xr-x 78 root root 4096 Jan 23 07:23 ..
+-rw-r--r--  1 root root  102 Mar  2  2023 .placeholder
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.daily; }
+47 6    * * 7   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }
+52 6    1 * *   root    test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }
+
+══╣ Checking for specific cron jobs vulnerabilities
+Checking cron directories...                                                                                                                                                                 
+
+╔══════════╣ System timers
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#timers                                                                                                     
+══╣ Active timers:                                                                                                                                                                           
+NEXT                        LEFT           LAST                        PASSED              UNIT                         ACTIVATES                                                            
+Fri 2026-01-23 07:38:12 EST 29s left       -                           -                   systemd-tmpfiles-clean.timer systemd-tmpfiles-clean.service
+Fri 2026-01-23 07:39:00 EST 1min 16s left  Fri 2026-01-23 07:23:19 EST 14min ago           phpsessionclean.timer        phpsessionclean.service
+Fri 2026-01-23 08:00:01 EST 22min left     Mon 2024-04-29 00:25:18 EDT 1 year 8 months ago fstrim.timer                 fstrim.service
+Fri 2026-01-23 08:10:18 EST 32min left     Thu 2024-05-02 06:17:31 EDT 1 year 8 months ago apt-daily-upgrade.timer      apt-daily-upgrade.service
+Fri 2026-01-23 14:21:10 EST 6h left        Thu 2024-05-02 06:57:48 EDT 1 year 8 months ago man-db.timer                 man-db.service
+Fri 2026-01-23 15:54:49 EST 8h left        Thu 2024-05-02 11:42:58 EDT 1 year 8 months ago apt-daily.timer              apt-daily.service
+Sat 2026-01-24 00:00:00 EST 16h left       -                           -                   dpkg-db-backup.timer         dpkg-db-backup.service
+Sat 2026-01-24 00:00:00 EST 16h left       Fri 2026-01-23 07:23:19 EST 14min ago           logrotate.timer              logrotate.service
+Sun 2026-01-25 03:10:45 EST 1 day 19h left Fri 2026-01-23 07:23:51 EST 13min ago           e2scrub_all.timer            e2scrub_all.service
+══╣ Disabled timers:
+══╣ Additional timer files:                                                                                                                                                                  
+                                                                                                                                                                                             
+╔══════════╣ Services and Service Files
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#services                                                                                                   
+                                                                                                                                                                                             
+══╣ Active services:
+apache2.service                    loaded active running The Apache HTTP Server                                                                                                              
+apparmor.service                   loaded active exited  Load AppArmor profiles
+console-setup.service              loaded active exited  Set console font and keymap
+cron.service                       loaded active running Regular background program processing daemon
+dbus.service                       loaded active running D-Bus System Message Bus
+getty@tty1.service                 loaded active running Getty on tty1
+ifup@enp1s0.service                loaded active exited  ifup for enp1s0
+  Potential issue in service file: /lib/systemd/system/ifup@.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+ifupdown-pre.service               loaded active exited  Helper to synchronize boot up for ifupdown
+  Potential issue in service file: /lib/systemd/system/ifupdown-pre.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+keyboard-setup.service             loaded active exited  Set the console keyboard layout
+kmod-static-nodes.service          loaded active exited  Create List of Static Device Nodes
+mariadb.service                    loaded active running MariaDB 10.11.6 database server
+  Potential issue in service file: /lib/systemd/system/mariadb.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+networking.service                 loaded active exited  Raise network interfaces
+  Potential issue in service file: /lib/systemd/system/networking.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+qemu-guest-agent.service           loaded active running QEMU Guest Agent
+ssh.service                        loaded active running OpenBSD Secure Shell server
+systemd-binfmt.service             loaded active exited  Set Up Additional Binary Formats
+systemd-journal-flush.service      loaded active exited  Flush Journal to Persistent Storage
+  Potential issue in service file: /lib/systemd/system/systemd-journal-flush.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+systemd-journald.service           loaded active running Journal Service
+systemd-logind.service             loaded active running User Login Management
+systemd-modules-load.service       loaded active exited  Load Kernel Modules
+systemd-random-seed.service        loaded active exited  Load/Save Random Seed
+systemd-remount-fs.service         loaded active exited  Remount Root and Kernel File Systems
+  Potential issue in service: systemd-remount-fs.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands
+systemd-sysctl.service             loaded active exited  Apply Kernel Variables
+systemd-sysusers.service           loaded active exited  Create System Users
+  Potential issue in service file: /lib/systemd/system/systemd-sysusers.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+  Potential issue in service: systemd-sysusers.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands
+systemd-timesyncd.service          loaded active running Network Time Synchronization
+systemd-tmpfiles-setup-dev.service loaded active exited  Create Static Device Nodes in /dev
+systemd-tmpfiles-setup.service     loaded active exited  Create Volatile Files and Directories
+systemd-udev-trigger.service       loaded active exited  Coldplug All udev Devices
+  Potential issue in service file: /lib/systemd/system/systemd-udev-trigger.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+  Potential issue in service: systemd-udev-trigger.service
+  └─ UNSAFE_CMD: Uses potentially dangerous commands
+systemd-udevd.service              loaded active running Rule-based Manager for Device Events and Files
+  Potential issue in service file: /lib/systemd/system/systemd-udevd.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+systemd-update-utmp.service        loaded active exited  Record System Boot/Shutdown in UTMP
+systemd-user-sessions.service      loaded active exited  Permit User Sessions
+user-runtime-dir@1000.service      loaded active exited  User Runtime Directory /run/user/1000
+user@1000.service                  loaded active running User Manager for UID 1000
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+32 loaded units listed.
+
+══╣ Disabled services:
+apache-htcacheclean.service            disabled enabled                                                                                                                                      
+apache-htcacheclean@.service           disabled enabled
+apache2@.service                       disabled enabled
+console-getty.service                  disabled disabled
+debug-shell.service                    disabled disabled
+ifupdown-wait-online.service           disabled enabled
+mariadb@.service                       disabled enabled
+nftables.service                       disabled enabled
+rsync.service                          disabled enabled
+serial-getty@.service                  disabled enabled
+systemd-boot-check-no-failures.service disabled disabled
+systemd-network-generator.service      disabled enabled
+systemd-networkd-wait-online.service   disabled disabled
+systemd-networkd-wait-online@.service  disabled enabled
+systemd-networkd.service               disabled enabled
+  Potential issue in service file: /lib/systemd/system/systemd-networkd.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+systemd-sysext.service                 disabled enabled
+  Potential issue in service file: /lib/systemd/system/systemd-sysext.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+systemd-time-wait-sync.service         disabled disabled
+17 unit files listed.
+
+══╣ Additional service files:
+  Potential issue in service file: /etc/systemd/system/multi-user.target.wants/mariadb.service                                                                                               
+  └─ RELATIVE_PATH: Could be executing some relative path
+  Potential issue in service file: /etc/systemd/system/multi-user.target.wants/networking.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+  Potential issue in service file: /etc/systemd/system/network-online.target.wants/networking.service
+  └─ RELATIVE_PATH: Could be executing some relative path
+You can't write on systemd PATH
+
+╔══════════╣ Systemd Information
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#systemd-path---relative-paths                                                                              
+═╣ Systemd version and vulnerabilities? .............. 252.22                                                                                                                                
+═╣ Services running as root? ..... 
+═╣ Running services with dangerous capabilities? ... 
+═╣ Services with writable paths? . apache2.service: Uses relative path 'start' (from ExecStart=/usr/sbin/apachectl start)
+mariadb.service: Uses relative path 'ExecStartPre=/usr/bin/mysql_install_db' (from # ExecStartPre=/usr/bin/mysql_install_db -u mysql)
+mariadb.service: Uses relative path '$MYSQLD_OPTS' (from ExecStart=/usr/sbin/mariadbd $MYSQLD_OPTS $_WSREP_NEW_CLUSTER $_WSREP_START_POSITION)
+mariadb.service: Uses relative path 'ExecStartPre=sync' (from # ExecStartPre=sync)
+mariadb.service: Uses relative path 'ExecStartPre=sysctl' (from # ExecStartPre=sysctl -q -w vm.drop_caches=3)
+mariadb.service: Uses relative path 'Change' (from # Change ExecStart=numactl --interleave=all /usr/sbin/mariadbd......)
+
+╔══════════╣ Systemd PATH
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#systemd-path---relative-paths                                                                              
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin                                                                                                                            
+
+╔══════════╣ Analyzing .socket files
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sockets                                                                                                    
+                                                                                                                                                                                             
+╔══════════╣ Unix Sockets Analysis
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sockets                                                                                                    
+/run/dbus/system_bus_socket                                                                                                                                                                  
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+/run/mysqld/mysqld.sock
+  └─(Read Write Execute (Weak Permissions: 777) )
+/run/systemd/fsck.progress
+/run/systemd/inaccessible/sock
+/run/systemd/io.system.ManagedOOM
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+/run/systemd/journal/dev-log
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+/run/systemd/journal/io.systemd.journal
+/run/systemd/journal/socket
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+/run/systemd/journal/stdout
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+/run/systemd/notify
+  └─(Read Write Execute (Weak Permissions: 777) )
+  └─(Owned by root)
+/run/systemd/private
+/run/systemd/userdb/io.systemd.DynamicUser
+  └─(Read Write (Weak Permissions: 666) )
+  └─(Owned by root)
+/run/udev/control
+/run/user/1000/bus
+  └─(Read Write (Weak Permissions: 666) )
+/run/user/1000/systemd/inaccessible/sock
+/run/user/1000/systemd/notify
+  └─(Read Write Execute )
+/run/user/1000/systemd/private
+  └─(Read Write Execute )
+
+╔══════════╣ D-Bus Analysis
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#d-bus                                                                                                      
+NAME                        PID PROCESS         USER             CONNECTION    UNIT                      SESSION DESCRIPTION                                                                 
+:1.0                        256 systemd-timesyn systemd-timesync :1.0          systemd-timesyncd.service -       -
+:1.1                          1 systemd         root             :1.1          init.scope                -       -
+:1.2                        441 systemd-logind  root             :1.2          systemd-logind.service    -       -
+:1.5                        782 systemd         johnny           :1.5          user@1000.service         -       -
+:1.743                    35908 busctl          johnny           :1.743        session-1.scope           1       -
+org.freedesktop.DBus          1 systemd         root             -             init.scope                -       -
+org.freedesktop.hostname1     - -               -                (activatable) -                         -       -
+org.freedesktop.locale1       - -               -                (activatable) -                         -       -
+org.freedesktop.login1      441 systemd-logind  root             :1.2          systemd-logind.service    -       -
+org.freedesktop.network1      - -               -                (activatable) -                         -       -
+org.freedesktop.systemd1      1 systemd         root             :1.1          init.scope                -       -
+org.freedesktop.timedate1     - -               -                (activatable) -                         -       -
+org.freedesktop.timesync1   256 systemd-timesyn systemd-timesync :1.0          systemd-timesyncd.service -       -
+
+╔══════════╣ D-Bus Configuration Files
+                                                                                                                                                                                             
+══╣ D-Bus Session Bus Analysis
+(Access to session bus available)                                                                                                                                                            
+           string "org.freedesktop.DBus"
+           string "org.freedesktop.systemd1"
+           string ":1.4"
+           string ":1.1"
+  └─(Known dangerous session service: org.freedesktop.systemd1)
+     └─ Try: dbus-send --session --dest=org.freedesktop.systemd1 / [Interface] [Method] [Arguments]
+
+╔══════════╣ Legacy r-commands (rsh/rlogin/rexec) and host-based trust
+                                                                                                                                                                                             
+══╣ Listening r-services (TCP 512-514)
+                                                                                                                                                                                             
+══╣ systemd units exposing r-services
+rlogin|rsh|rexec units Not Found                                                                                                                                                             
+                                                                                                                                                                                             
+══╣ inetd/xinetd configuration for r-services
+/etc/inetd.conf Not Found                                                                                                                                                                    
+/etc/xinetd.d Not Found                                                                                                                                                                      
+                                                                                                                                                                                             
+══╣ Installed r-service server packages
+  No related packages found via dpkg                                                                                                                                                         
+
+══╣ /etc/hosts.equiv and /etc/shosts.equiv
+                                                                                                                                                                                             
+══╣ Per-user .rhosts files
+.rhosts Not Found                                                                                                                                                                            
+                                                                                                                                                                                             
+══╣ PAM rhosts authentication
+/etc/pam.d/rlogin|rsh Not Found                                                                                                                                                              
+                                                                                                                                                                                             
+══╣ SSH HostbasedAuthentication
+  HostbasedAuthentication no or not set                                                                                                                                                      
+
+══╣ Potential DNS control indicators (local)
+  Not detected                                                                                                                                                                               
+
+╔══════════╣ Crontab UI (root) misconfiguration checks
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scheduledcron-jobs                                                                                         
+crontab-ui Not Found                                                                                                                                                                         
+                                                                                                                                                                                             
+
+                              ╔═════════════════════╗
+══════════════════════════════╣ Network Information ╠══════════════════════════════                                                                                                          
+                              ╚═════════════════════╝                                                                                                                                        
+╔══════════╣ Interfaces
+default         0.0.0.0                                                                                                                                                                      
+loopback        127.0.0.0
+link-local      169.254.0.0
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp1s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:b0:be:6e brd ff:ff:ff:ff:ff:ff
+    inet 172.20.14.166/24 brd 172.20.14.255 scope global dynamic enp1s0
+       valid_lft 2736sec preferred_lft 2736sec
+    inet6 fe80::5054:ff:feb0:be6e/64 scope link 
+       valid_lft forever preferred_lft forever
+
+╔══════════╣ Hostname, hosts and DNS
+══╣ Hostname Information                                                                                                                                                                     
+System hostname: comicstore                                                                                                                                                                  
+FQDN: comicstore
+
+══╣ Hosts File Information
+Contents of /etc/hosts:                                                                                                                                                                      
+  127.0.0.1     localhost
+  127.0.1.1     comicstore comicstore.hv
+  ::1     localhost ip6-localhost ip6-loopback
+  ff02::1 ip6-allnodes
+  ff02::2 ip6-allrouters
+
+══╣ DNS Configuration
+DNS Servers (resolv.conf):                                                                                                                                                                   
+  172.20.14.1
+-e 
+DNS Domain Information:
+(none)
+
+╔══════════╣ Active Ports
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#open-ports                                                                                                 
+══╣ Active Ports (ss)                                                                                                                                                                        
+tcp   LISTEN 0      128          0.0.0.0:22        0.0.0.0:*                                                                                                                                 
+tcp   LISTEN 0      80           0.0.0.0:3306      0.0.0.0:*          
+tcp   LISTEN 0      128             [::]:22           [::]:*          
+tcp   LISTEN 0      511                *:80              *:*          
+
+╔══════════╣ Network Traffic Analysis Capabilities
+                                                                                                                                                                                             
+══╣ Available Sniffing Tools
+No sniffing tools found                                                                                                                                                                      
+
+══╣ Network Interfaces Sniffing Capabilities
+Interface enp1s0: Not sniffable                                                                                                                                                              
+No sniffable interfaces found
+
+╔══════════╣ Firewall Rules Analysis
+                                                                                                                                                                                             
+══╣ Iptables Rules
+iptables Not Found                                                                                                                                                                           
+                                                                                                                                                                                             
+══╣ Nftables Rules
+No permission to list nftables rules                                                                                                                                                         
+
+══╣ Firewalld Rules
+firewalld Not Found                                                                                                                                                                          
+                                                                                                                                                                                             
+══╣ UFW Rules
+ufw Not Found                                                                                                                                                                                
+                                                                                                                                                                                             
+╔══════════╣ Inetd/Xinetd Services Analysis
+                                                                                                                                                                                             
+══╣ Inetd Services
+inetd Not Found                                                                                                                                                                              
+                                                                                                                                                                                             
+══╣ Xinetd Services
+xinetd Not Found                                                                                                                                                                             
+                                                                                                                                                                                             
+══╣ Running Inetd/Xinetd Services
+-e                                                                                                                                                                                           
+Active Services (from ss):
+-e 
+Running Service Processes:
+
+╔══════════╣ Internet Access?
+DNS is not accessible                                                                                                                                                                        
+Port 443 is not accessible
+Port 80 is not accessible
+ICMP is not accessible
+Port 443 is not accessible with curl
+
+
+
+                               ╔═══════════════════╗
+═══════════════════════════════╣ Users Information ╠═══════════════════════════════                                                                                                          
+                               ╚═══════════════════╝                                                                                                                                         
+╔══════════╣ My user
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#users                                                                                                      
+uid=1000(johnny) gid=1000(johnny) groups=1000(johnny)                                                                                                                                        
+
+╔══════════╣ PGP Keys and Related Files
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#pgp-keys                                                                                                   
+GPG:                                                                                                                                                                                         
+gpg Not Found
+-e                                                                                                                                                                                           
+NetPGP:
+netpgpkeys Not Found
+-e                                                                                                                                                                                           
+PGP Related Files:
+
+╔══════════╣ Checking 'sudo -l', /etc/sudoers, and /etc/sudoers.d
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-and-suid                                                                                              
+Matching Defaults entries for johnny on comicstore:                                                                                                                                          
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, use_pty
+
+User johnny may run the following commands on comicstore:
+    (root) NOPASSWD: /opt/.securebak/backup_mp3.sh
+
+
+╔══════════╣ Checking sudo tokens
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#reusing-sudo-tokens                                                                                        
+ptrace protection is disabled (0), so sudo tokens could be abused                                                                                                                            
+
+doas.conf Not Found
+                                                                                                                                                                                             
+╔══════════╣ Checking Pkexec and Polkit
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/interesting-groups-linux-pe/index.html#pe---method-2                                                                  
+                                                                                                                                                                                             
+══╣ Polkit Binary
+                                                                                                                                                                                             
+══╣ Polkit Policies
+Checking /usr/share/polkit-1/rules.d/:                                                                                                                                                       
+// This file is part of systemd.
+// See systemd-networkd.service(8) and polkit(8) for more information.
+
+// Allow systemd-networkd to set timezone, get product UUID,
+// and transient hostname
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.freedesktop.hostname1.set-hostname" ||
+         action.id == "org.freedesktop.hostname1.get-product-uuid" ||
+         action.id == "org.freedesktop.timedate1.set-timezone") &&
+        subject.user == "systemd-network") {
+        return polkit.Result.YES;
+    }
+});
+
+══╣ Polkit Authentication Agent
+                                                                                                                                                                                             
+╔══════════╣ Superusers and UID 0 Users
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/interesting-groups-linux-pe/index.html                                                                                
+                                                                                                                                                                                             
+══╣ Users with UID 0 in /etc/passwd
+root:x:0:0:root:/root:/bin/bash                                                                                                                                                              
+
+══╣ Users with sudo privileges in sudoers
+                                                                                                                                                                                             
+╔══════════╣ Users with console
+johnny:x:1000:1000:johnny,,,:/home/johnny:/bin/bash                                                                                                                                          
+root:x:0:0:root:/root:/bin/bash
+
+╔══════════╣ All users & groups
+uid=0(root) gid=0(root) groups=0(root)                                                                                                                                                       
+uid=1000(johnny) gid=1000(johnny) groups=1000(johnny)
+uid=100(messagebus) gid=107(messagebus) groups=107(messagebus)
+uid=101(sshd) gid=65534(nogroup) groups=65534(nogroup)
+uid=102(mysql) gid=110(mysql) groups=110(mysql)
+uid=10(uucp) gid=10(uucp) groups=10(uucp)
+uid=13(proxy) gid=13(proxy) groups=13(proxy)
+uid=1(daemon[0m) gid=1(daemon[0m) groups=1(daemon[0m)
+uid=2(bin) gid=2(bin) groups=2(bin)
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+uid=34(backup) gid=34(backup) groups=34(backup)
+uid=38(list) gid=38(list) groups=38(list)
+uid=39(irc) gid=39(irc) groups=39(irc)
+uid=3(sys) gid=3(sys) groups=3(sys)
+uid=42(_apt) gid=65534(nogroup) groups=65534(nogroup)
+uid=4(sync) gid=65534(nogroup) groups=65534(nogroup)
+uid=5(games) gid=60(games) groups=60(games)
+uid=65534(nobody) gid=65534(nogroup) groups=65534(nogroup)
+uid=6(man) gid=12(man) groups=12(man)
+uid=7(lp) gid=7(lp) groups=7(lp)
+uid=8(mail) gid=8(mail) groups=8(mail)
+uid=997(systemd-timesync) gid=997(systemd-timesync) groups=997(systemd-timesync)
+uid=998(systemd-network) gid=998(systemd-network) groups=998(systemd-network)
+uid=9(news) gid=9(news) groups=9(news)
+
+╔══════════╣ Currently Logged in Users
+                                                                                                                                                                                             
+══╣ Basic user information
+ 07:37:56 up 14 min,  1 user,  load average: 0.54, 3.31, 2.89                                                                                                                                
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+johnny   pts/0    10.8.73.133      07:28   36.00s  0.33s   ?    w
+
+══╣ Active sessions
+ 07:37:56 up 14 min,  1 user,  load average: 0.54, 3.31, 2.89                                                                                                                                
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+johnny   pts/0    10.8.73.133      07:28   36.00s  0.33s   ?    w
+
+══╣ Logged in users (utmp)
+           system boot  2026-01-23 07:23                                                                                                                                                     
+           run-level 5  2026-01-23 07:23
+LOGIN      tty1         2026-01-23 07:23               455 id=tty1
+johnny   + pts/0        2026-01-23 07:28   .           779 (10.8.73.133)
+
+══╣ SSH sessions
+ESTAB    0      3736   172.20.14.166:22      10.8.73.133:37054                                                                                                                               
+
+══╣ Screen sessions
+                                                                                                                                                                                             
+══╣ Tmux sessions
+                                                                                                                                                                                             
+╔══════════╣ Last Logons and Login History
+                                                                                                                                                                                             
+══╣ Last logins
+johnny   pts/0        10.8.73.133      Fri Jan 23 07:28   still logged in                                                                                                                    
+reboot   system boot  6.1.0-18-amd64   Fri Jan 23 07:23   still running
+
+wtmp begins Fri Jan 23 07:23:17 2026
+
+══╣ Failed login attempts
+                                                                                                                                                                                             
+══╣ Recent logins from auth.log (limit 20)
+                                                                                                                                                                                             
+══╣ Last time logon each user
+Username         Port     From                                       Latest                                                                                                                  
+johnny           pts/0    10.8.73.133                               Fri Jan 23 07:28:23 -0500 2026
+
+╔══════════╣ Do not forget to test 'su' as any other user with shell: without password and with their names as password (I don't do it in FAST mode...)
+                                                                                                                                                                                             
+╔══════════╣ Do not forget to execute 'sudo -l' without password or with valid password (if you know it)!!
+                                                                                                                                                                                             
+
+
+                             ╔══════════════════════╗
+═════════════════════════════╣ Software Information ╠═════════════════════════════                                                                                                           
+                             ╚══════════════════════╝                                                                                                                                        
+╔══════════╣ Useful software
+/usr/bin/base64                                                                                                                                                                              
+/usr/bin/curl
+/usr/bin/nc
+/usr/bin/nc.traditional
+/usr/bin/netcat
+/usr/bin/perl
+/usr/bin/php
+/usr/bin/ping
+/usr/bin/python3
+/usr/bin/socat
+/usr/bin/sudo
+/usr/bin/wget
+
+╔══════════╣ Installed Compilers
+                                                                                                                                                                                             
+╔══════════╣ Analyzing Apache-Nginx Files (limit 70)
+Apache version: Server version: Apache/2.4.57 (Debian)                                                                                                                                       
+Server built:   2023-04-13T03:26:51
+httpd Not Found
+                                                                                                                                                                                             
+Nginx version: nginx Not Found
+                                                                                                                                                                                             
+/etc/apache2/mods-available/php8.2.conf-<FilesMatch ".+\.ph(?:ar|p|tml)$">
+/etc/apache2/mods-available/php8.2.conf:    SetHandler application/x-httpd-php
+--
+/etc/apache2/mods-available/php8.2.conf-<FilesMatch ".+\.phps$">
+/etc/apache2/mods-available/php8.2.conf:    SetHandler application/x-httpd-php-source
+--
+/etc/apache2/mods-enabled/php8.2.conf-<FilesMatch ".+\.ph(?:ar|p|tml)$">
+/etc/apache2/mods-enabled/php8.2.conf:    SetHandler application/x-httpd-php
+--
+/etc/apache2/mods-enabled/php8.2.conf-<FilesMatch ".+\.phps$">
+/etc/apache2/mods-enabled/php8.2.conf:    SetHandler application/x-httpd-php-source
+══╣ PHP exec extensions
+drwxr-xr-x 2 root root 4096 Jan 18  2024 /etc/apache2/sites-enabled                                                                                                                          
+drwxr-xr-x 2 root root 4096 Jan 18  2024 /etc/apache2/sites-enabled
+lrwxrwxrwx 1 root root 33 Jan 18  2024 /etc/apache2/sites-enabled/wordpress.conf -> ../sites-available/wordpress.conf
+<VirtualHost *:80>
+        ServerAdmin johnny@comicstore.hv
+        DocumentRoot /srv/www/wordpress
+        ServerName comicstore.hv
+        <Directory /srv/www/wordpress>
+                Options FollowSymLinks
+                AllowOverride Limit Options FileInfo
+                DirectoryIndex index.php
+                Require all granted
+        </Directory>
+        <Directory /srv/www/wordpress/wp-content>
+                Options FollowSymlinks
+                Require all granted
+        </Directory>
+        <Directory /srv/www/wordpress/_notes>
+                Options +Indexes
+        </Directory>
+</VirtualHost>
+
+
+
+-rw-r--r-- 1 root root 73944 Jun  9  2023 /etc/php/8.2/apache2/php.ini
+allow_url_fopen = On
+allow_url_include = Off
+odbc.allow_persistent = On
+mysqli.allow_persistent = On
+pgsql.allow_persistent = On
+-rw-r--r-- 1 root root 73940 Jun  9  2023 /etc/php/8.2/cli/php.ini
+allow_url_fopen = On
+allow_url_include = Off
+odbc.allow_persistent = On
+mysqli.allow_persistent = On
+pgsql.allow_persistent = On
+
+
+
+╔══════════╣ Analyzing MariaDB Files (limit 70)
+-rw-r--r-- 1 root root 1126 Jul 23  2023 /etc/mysql/mariadb.cnf                                                                                                                              
+[client-server]
+socket = /run/mysqld/mysqld.sock
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
+
+-rw------- 1 root root 544 Jan 18  2024 /etc/mysql/debian.cnf
+
+╔══════════╣ Analyzing Wordpress Files (limit 70)
+-rw-r--r-- 1 www-data www-data 3275 Jan 18  2024 /srv/www/wordpress/wp-config.php                                                                                                            
+define( 'DB_NAME', 'wordpress' );
+define( 'DB_USER', 'wordpress' );
+define( 'DB_PASSWORD', 'iZEw2gKm' );
+define( 'DB_HOST', 'localhost' );
+-rw-r--r-- 1 root root 2816 Dec  9  2022 /usr/share/wordpress/wp-config.php
+$debian_server = preg_replace('/:.*/', "", $_SERVER['HTTP_HOST']);
+if (!defined('DB_NAME'))
+    define('DB_NAME', 'wordpress');
+if (!defined('DB_USER'))
+    define('DB_USER', 'wordpress');
+if (!defined('DB_HOST'))
+    define('DB_HOST', 'localhost');
+
+╔══════════╣ Analyzing Rsync Files (limit 70)
+-rw-r--r-- 1 root root 1044 Dec 18  2022 /usr/share/doc/rsync/examples/rsyncd.conf                                                                                                           
+[ftp]
+        comment = public archive
+        path = /var/www/pub
+        use chroot = yes
+        lock file = /var/lock/rsyncd
+        read only = yes
+        list = yes
+        uid = nobody
+        gid = nogroup
+        strict modes = yes
+        ignore errors = no
+        ignore nonreadable = yes
+        transfer logging = no
+        timeout = 600
+        refuse options = checksum dry-run
+        dont compress = *.gz *.tgz *.zip *.z *.rpm *.deb *.iso *.bz2 *.tbz
+
+
+╔══════════╣ Analyzing PAM Auth Files (limit 70)
+drwxr-xr-x 2 root root 4096 Mar  3  2024 /etc/pam.d                                                                                                                                          
+-rw-r--r-- 1 root root 2133 Dec 19  2023 /etc/pam.d/sshd
+account    required     pam_nologin.so
+session [success=ok ignore=ignore module_unknown=ignore default=bad]        pam_selinux.so close
+session    required     pam_loginuid.so
+session    optional     pam_keyinit.so force revoke
+session    optional     pam_motd.so  motd=/run/motd.dynamic
+session    optional     pam_motd.so noupdate
+session    optional     pam_mail.so standard noenv # [1]
+session    required     pam_limits.so
+session    required     pam_env.so # [1]
+session    required     pam_env.so user_readenv=1 envfile=/etc/default/locale
+session [success=ok ignore=ignore module_unknown=ignore default=bad]        pam_selinux.so open
+
+
+╔══════════╣ Analyzing Ldap Files (limit 70)
+The password hash is from the {SSHA} to 'structural'                                                                                                                                         
+drwxr-xr-x 2 root root 4096 Jan 16  2024 /etc/ldap
+
+
+╔══════════╣ Analyzing Keyring Files (limit 70)
+drwxr-xr-x 2 root root 4096 May 25  2023 /etc/apt/keyrings                                                                                                                                   
+drwxr-xr-x 2 root root 4096 Jan 16  2024 /usr/share/keyrings
+
+
+
+
+╔══════════╣ Analyzing Postfix Files (limit 70)
+-rw-r--r-- 1 root root 761 Apr  3  2022 /usr/share/bash-completion/completions/postfix                                                                                                       
+
+
+╔══════════╣ Analyzing Http conf Files (limit 70)
+lrwxrwxrwx 1 root root 15 Apr 12  2023 /usr/share/doc/apache2/examples/apache2/original/httpd.conf -> ../apache2.conf                                                                        
+
+╔══════════╣ Analyzing FTP Files (limit 70)
+                                                                                                                                                                                             
+
+
+-rw-r--r-- 1 root root 69 Jun  9  2023 /etc/php/8.2/mods-available/ftp.ini
+-rw-r--r-- 1 root root 69 Jun  9  2023 /usr/share/php8.2-common/common/ftp.ini
+
+
+
+
+
+
+╔══════════╣ Analyzing DNS Files (limit 70)
+-rw-r--r-- 1 root root 826 Apr  3  2022 /usr/share/bash-completion/completions/bind                                                                                                          
+-rw-r--r-- 1 root root 826 Apr  3  2022 /usr/share/bash-completion/completions/bind
+
+
+
+
+╔══════════╣ Analyzing Interesting logs Files (limit 70)
+                                                                                                                                                                                             
+-rw-r----- 1 root adm 4727 Jan 23 07:34 /var/log/apache2/error.log
+
+╔══════════╣ Analyzing Other Interesting Files (limit 70)
+-rw-r--r-- 1 root root 3526 Apr 23  2023 /etc/skel/.bashrc                                                                                                                                   
+-rw-r--r-- 1 johnny johnny 3526 Jan 16  2024 /home/johnny/.bashrc
+
+
+
+
+
+-rw-r--r-- 1 root root 807 Apr 23  2023 /etc/skel/.profile
+
+
+
+
+╔══════════╣ Analyzing Windows Files (limit 70)
+                                                                                                                                                                                             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lrwxrwxrwx 1 root root 22 Jan 18  2024 /etc/alternatives/my.cnf -> /etc/mysql/mariadb.cnf
+lrwxrwxrwx 1 root root 24 Oct 20  2020 /etc/mysql/my.cnf -> /etc/alternatives/my.cnf
+-rw-r--r-- 1 root root 83 Mar  3  2024 /var/lib/dpkg/alternatives/my.cnf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+╔══════════╣ Searching mysql credentials and exec
+From '/etc/mysql/mariadb.conf.d/50-server.cnf' Mysql user:                                                                                                                                   
+Found readable /etc/mysql/my.cnf
+[client-server]
+socket = /run/mysqld/mysqld.sock
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
+
+╔══════════╣ MySQL version
+mysql  Ver 15.1 Distrib 10.11.6-MariaDB, for debian-linux-gnu (x86_64) using  EditLine wrapper                                                                                               
+
+
+═╣ MySQL connection using default root/root ........... No
+═╣ MySQL connection using root/toor ................... No                                                                                                                                   
+═╣ MySQL connection using root/NOPASS ................. No                                                                                                                                   
+                                                                                                                                                                                             
+MySQL process not found.
+╔══════════╣ Analyzing PGP-GPG Files (limit 70)
+gpg Not Found                                                                                                                                                                                
+netpgpkeys Not Found                                                                                                                                                                         
+netpgp Not Found                                                                                                                                                                             
+                                                                                                                                                                                             
+-rw-r--r-- 1 root root 8700 Jul 30  2023 /usr/share/keyrings/debian-archive-bookworm-automatic.gpg
+-rw-r--r-- 1 root root 8709 Jul 30  2023 /usr/share/keyrings/debian-archive-bookworm-security-automatic.gpg
+-rw-r--r-- 1 root root 280 Jul 30  2023 /usr/share/keyrings/debian-archive-bookworm-stable.gpg
+-rw-r--r-- 1 root root 8700 Jul 30  2023 /usr/share/keyrings/debian-archive-bullseye-automatic.gpg
+-rw-r--r-- 1 root root 8709 Jul 30  2023 /usr/share/keyrings/debian-archive-bullseye-security-automatic.gpg
+-rw-r--r-- 1 root root 2453 Jul 30  2023 /usr/share/keyrings/debian-archive-bullseye-stable.gpg
+-rw-r--r-- 1 root root 8132 Jul 30  2023 /usr/share/keyrings/debian-archive-buster-automatic.gpg
+-rw-r--r-- 1 root root 8141 Jul 30  2023 /usr/share/keyrings/debian-archive-buster-security-automatic.gpg
+-rw-r--r-- 1 root root 2332 Jul 30  2023 /usr/share/keyrings/debian-archive-buster-stable.gpg
+-rw-r--r-- 1 root root 56156 Jul 30  2023 /usr/share/keyrings/debian-archive-keyring.gpg
+-rw-r--r-- 1 root root 54031 Jul 30  2023 /usr/share/keyrings/debian-archive-removed-keys.gpg
+
+
+
+
+╔══════════╣ Searching uncommon passwd files (splunk)
+passwd file: /etc/pam.d/passwd                                                                                                                                                               
+passwd file: /etc/passwd
+passwd file: /usr/share/bash-completion/completions/passwd
+passwd file: /usr/share/lintian/overrides/passwd
+
+╔══════════╣ Searching ssl/ssh files
+╔══════════╣ Analyzing SSH Files (limit 70)                                                                                                                                                  
+                                                                                                                                                                                             
+
+
+
+
+-rw-r--r-- 1 root root 176 Jan 16  2024 /etc/ssh/ssh_host_ecdsa_key.pub
+-rw-r--r-- 1 root root 96 Jan 16  2024 /etc/ssh/ssh_host_ed25519_key.pub
+-rw-r--r-- 1 root root 568 Jan 16  2024 /etc/ssh/ssh_host_rsa_key.pub
+
+PermitRootLogin yes
+UsePAM yes
+
+══╣ Possible private SSH keys were found!
+/etc/ImageMagick-6/mime.xml
+
+══╣ Some certificates were found (out limited):
+/etc/ssl/certs/ACCVRAIZ1.pem                                                                                                                                                                 
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM.pem
+/etc/ssl/certs/AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+/etc/ssl/certs/Actalis_Authentication_Root_CA.pem
+/etc/ssl/certs/AffirmTrust_Commercial.pem
+/etc/ssl/certs/AffirmTrust_Networking.pem
+/etc/ssl/certs/AffirmTrust_Premium_ECC.pem
+/etc/ssl/certs/AffirmTrust_Premium.pem
+/etc/ssl/certs/Amazon_Root_CA_1.pem
+/etc/ssl/certs/Amazon_Root_CA_2.pem
+/etc/ssl/certs/Amazon_Root_CA_3.pem
+/etc/ssl/certs/Amazon_Root_CA_4.pem
+/etc/ssl/certs/ANF_Secure_Server_Root_CA.pem
+/etc/ssl/certs/Atos_TrustedRoot_2011.pem
+/etc/ssl/certs/Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068_2.pem
+/etc/ssl/certs/Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+/etc/ssl/certs/Baltimore_CyberTrust_Root.pem
+/etc/ssl/certs/Buypass_Class_2_Root_CA.pem
+/etc/ssl/certs/Buypass_Class_3_Root_CA.pem
+/etc/ssl/certs/ca-certificates.crt
+21534PSTORAGE_CERTSBIN
+
+══╣ Some home ssh config file was found
+/usr/share/openssh/sshd_config                                                                                                                                                               
+Include /etc/ssh/sshd_config.d/*.conf
+KbdInteractiveAuthentication no
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+AcceptEnv LANG LC_*
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+
+══╣ /etc/hosts.allow file found, trying to read the rules:
+/etc/hosts.allow                                                                                                                                                                             
+
+
+Searching inside /etc/ssh/ssh_config for interesting info
+Include /etc/ssh/ssh_config.d/*.conf
+Host *
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+
+
+
+
+                      ╔════════════════════════════════════╗
+══════════════════════╣ Files with Interesting Permissions ╠══════════════════════                                                                                                           
+                      ╚════════════════════════════════════╝                                                                                                                                 
+╔══════════╣ SUID - Check easy privesc, exploits and write perms
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-and-suid                                                                                              
+strings Not Found                                                                                                                                                                            
+strace Not Found                                                                                                                                                                             
+-rwsr-xr-x 1 root root 71K Mar 23  2023 /usr/bin/su                                                                                                                                          
+-rwsr-xr-x 1 root root 67K Mar 23  2023 /usr/bin/passwd  --->  Apple_Mac_OSX(03-2006)/Solaris_8/9(12-2004)/SPARC_8/9/Sun_Solaris_2.3_to_2.5.1(02-1997)
+-rwsr-xr-x 1 root root 87K Mar 23  2023 /usr/bin/gpasswd
+-rwsr-xr-x 1 root root 48K Mar 23  2023 /usr/bin/newgrp  --->  HP-UX_10.20
+-rwsr-xr-x 1 root root 276K Jun 27  2023 /usr/bin/sudo  --->  check_if_the_sudo_version_is_vulnerable
+-rwsr-xr-x 1 root root 52K Mar 23  2023 /usr/bin/chsh
+-rwsr-xr-x 1 root root 59K Mar 23  2023 /usr/bin/mount  --->  Apple_Mac_OSX(Lion)_Kernel_xnu-1699.32.7_except_xnu-1699.24.8
+-rwsr-xr-x 1 root root 62K Mar 23  2023 /usr/bin/chfn  --->  SuSE_9.3/10
+-rwsr-xr-x 1 root root 35K Mar 23  2023 /usr/bin/umount  --->  BSD/Linux(08-1996)
+-rwsr-xr-x 1 root root 639K Dec 19  2023 /usr/lib/openssh/ssh-keysign
+-rwsr-xr-- 1 root messagebus 51K Sep 16  2023 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
+
+╔══════════╣ SGID
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#sudo-and-suid                                                                                              
+ICMP is not accessible                                                                                                                                                                       
+-rwxr-sr-x 1 root shadow 39K Sep 21  2023 /usr/sbin/unix_chkpwd
+-rwxr-sr-x 1 root _ssh 471K Dec 19  2023 /usr/bin/ssh-agent
+-rwxr-sr-x 1 root crontab 43K Mar  2  2023 /usr/bin/crontab
+-rwxr-sr-x 1 root tty 23K Mar 23  2023 /usr/bin/write
+-rwxr-sr-x 1 root shadow 79K Mar 23  2023 /usr/bin/chage
+-rwxr-sr-x 1 root mail 23K Feb  4  2021 /usr/bin/dotlockfile
+-rwxr-sr-x 1 root shadow 31K Mar 23  2023 /usr/bin/expiry
+-rwxr-sr-x 1 root tty 39K Mar 23  2023 /usr/bin/wall
+
+╔══════════╣ Files with ACLs (limited to 50)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#acls                                                                                                       
+files with acls in searched folders Not Found                                                                                                                                                
+                                                                                                                                                                                             
+╔══════════╣ Capabilities
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#capabilities                                                                                               
+══╣ Current shell capabilities                                                                                                                                                               
+./linpeas.sh: 7848: [[: not found                                                                                                                                                            
+CapInh:  [Invalid capability format]
+./linpeas.sh: 7848: [[: not found
+CapPrm:  [Invalid capability format]
+./linpeas.sh: 7839: [[: not found
+CapEff:  [Invalid capability format]
+./linpeas.sh: 7848: [[: not found
+CapBnd:  [Invalid capability format]
+./linpeas.sh: 7848: [[: not found
+CapAmb:  [Invalid capability format]
+
+╚ Parent process capabilities
+./linpeas.sh: 7873: [[: not found                                                                                                                                                            
+CapInh:  [Invalid capability format]
+./linpeas.sh: 7873: [[: not found
+CapPrm:  [Invalid capability format]
+./linpeas.sh: 7864: [[: not found
+CapEff:  [Invalid capability format]
+./linpeas.sh: 7873: [[: not found
+CapBnd:  [Invalid capability format]
+./linpeas.sh: 7873: [[: not found
+CapAmb:  [Invalid capability format]
+
+
+Files with capabilities (limited to 50):
+/usr/bin/ping cap_net_raw=ep
+
+╔══════════╣ Checking misconfigurations of ld.so
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#ldso                                                                                                       
+/etc/ld.so.conf                                                                                                                                                                              
+Content of /etc/ld.so.conf:                                                                                                                                                                  
+include /etc/ld.so.conf.d/*.conf
+
+/etc/ld.so.conf.d
+  /etc/ld.so.conf.d/libc.conf                                                                                                                                                                
+  - /usr/local/lib                                                                                                                                                                           
+  /etc/ld.so.conf.d/x86_64-linux-gnu.conf
+  - /usr/local/lib/x86_64-linux-gnu                                                                                                                                                          
+  - /lib/x86_64-linux-gnu
+  - /usr/lib/x86_64-linux-gnu
+
+/etc/ld.so.preload
+╔══════════╣ Files (scripts) in /etc/profile.d/                                                                                                                                              
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#profiles-files                                                                                             
+total 20                                                                                                                                                                                     
+drwxr-xr-x  2 root root 4096 Jan 18  2024 .
+drwxr-xr-x 78 root root 4096 Jan 23 07:23 ..
+-rw-r--r--  1 root root  726 Apr  3  2022 bash_completion.sh
+-rw-r--r--  1 root root 1107 Feb 19  2023 gawk.csh
+-rw-r--r--  1 root root  757 Feb 19  2023 gawk.sh
+
+╔══════════╣ Permissions in init, init.d, systemd, and rc.d
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#init-initd-systemd-and-rcd                                                                                 
+                                                                                                                                                                                             
+╔══════════╣ AppArmor binary profiles
+-rw-r--r-- 1 root root 3461 Mar 30  2023 sbin.dhclient                                                                                                                                       
+-rw-r--r-- 1 root root 3448 Mar 12  2023 usr.bin.man
+-rw-r--r-- 1 root root  730 Aug  2  2023 usr.sbin.mariadbd
+
+═╣ Hashes inside passwd file? ........... No
+═╣ Writable passwd file? ................ No                                                                                                                                                 
+═╣ Credentials in fstab/mtab? ........... No                                                                                                                                                 
+═╣ Can I read shadow files? ............. No                                                                                                                                                 
+═╣ Can I read shadow plists? ............ No                                                                                                                                                 
+═╣ Can I write shadow plists? ........... No                                                                                                                                                 
+═╣ Can I read opasswd file? ............. No                                                                                                                                                 
+═╣ Can I write in network-scripts? ...... No                                                                                                                                                 
+═╣ Can I read root folder? .............. No                                                                                                                                                 
+                                                                                                                                                                                             
+╔══════════╣ Searching root files in home dirs (limit 30)
+/home/                                                                                                                                                                                       
+/home/johnny/Documents/myc0ll3ct1on
+/home/johnny/Documents/myc0ll3ct1on/scamlist.csv
+/root/
+/var/www
+/var/www/html
+
+╔══════════╣ Searching folders owned by me containing others files on it (limit 100)
+-rw------- 1 root   root        274 May  2  2024 scamlist.csv                                                                                                                                
+-rw-r--r-- 1 johnny johnny 10485760 Feb 18  2024 NotSoRare.cba
+-rw-r--r-- 1 johnny johnny 12582912 Feb 18  2024 Rare.cba
+-rw-r--r-- 1 johnny johnny 13631488 Feb 18  2024 SuperRare.cba
+-rw-r--r-- 1 johnny johnny 13631488 Feb 18  2024 VeryRare.cba
+-rw-r--r-- 1 johnny johnny      226 Mar  3  2024 notetomyself.txt
+total 49160
+
+╔══════════╣ Readable files belonging to root and readable by me but not world readable
+                                                                                                                                                                                             
+╔══════════╣ Interesting writable files owned by me or writable by everyone (not in Home) (max 200)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-files                                                                                             
+/dev/mqueue                                                                                                                                                                                  
+/dev/shm
+/home/johnny
+/run/lock
+/run/user/1000
+/run/user/1000/dbus-1
+/run/user/1000/dbus-1/services
+/run/user/1000/systemd
+/run/user/1000/systemd/inaccessible
+/run/user/1000/systemd/inaccessible/dir
+/run/user/1000/systemd/inaccessible/reg
+/run/user/1000/systemd/units
+/tmp
+/tmp/.font-unix
+/tmp/.ICE-unix
+/tmp/linpeas-output.txt
+/tmp/linpeas.sh
+/tmp/.X11-unix
+#)You_can_write_even_more_files_inside_last_directory
+
+/var/lib/php/sessions
+/var/tmp
+
+╔══════════╣ Interesting GROUP writable files (not in Home) (max 200)
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#writable-files                                                                                             
+                                                                                                                                                                                             
+
+
+                            ╔═════════════════════════╗
+════════════════════════════╣ Other Interesting Files ╠════════════════════════════                                                                                                          
+                            ╚═════════════════════════╝                                                                                                                                      
+╔══════════╣ .sh files in path
+╚ https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/index.html#scriptbinaries-in-path                                                                                     
+/usr/bin/gettext.sh                                                                                                                                                                          
+
+╔══════════╣ Executable files potentially added by user (limit 70)
+2024-03-03+04:09:01.7660059060 /opt/.securebak/backup_mp3.sh                                                                                                                                 
+
+╔══════════╣ Unexpected in root
+/vmlinuz.old                                                                                                                                                                                 
+/vmlinuz
+/initrd.img
+/initrd.img.old
+
+╔══════════╣ Modified interesting files in the last 5mins (limit 100)
+/var/log/apache2/other_vhosts_access.log                                                                                                                                                     
+/var/log/apache2/error.log
+
+╔══════════╣ Syslog configuration (limit 50)
+syslog configuration Not Found                                                                                                                                                               
+╔══════════╣ Auditd configuration (limit 50)                                                                                                                                                 
+auditd configuration Not Found                                                                                                                                                               
+╔══════════╣ Log files with potentially weak perms (limit 50)                                                                                                                                
+  1044565      8 -rw-r-----   1 root     adm          4727 Jan 23 07:34 /var/log/apache2/error.log                                                                                           
+  1044554      4 -rw-r-----   1 root     adm           706 Jan 23 07:23 /var/log/apache2/error.log.1
+
+╔══════════╣ Files inside /home/johnny (limit 20)
+total 36                                                                                                                                                                                     
+drwx------ 7 johnny johnny 4096 May  6  2024 .
+drwxr-xr-x 3 root   root   4096 Jan 16  2024 ..
+lrwxrwxrwx 1 johnny johnny    9 Mar  3  2024 .bash_history -> /dev/null
+-rw-r--r-- 1 johnny johnny  220 Jan 16  2024 .bash_logout
+-rw-r--r-- 1 johnny johnny 3526 Jan 16  2024 .bashrc
+drwxr-xr-x 2 johnny johnny 4096 Feb 18  2024 Desktop
+drwxr-xr-x 3 johnny johnny 4096 Feb 18  2024 Documents
+drwxr-xr-x 2 johnny johnny 4096 Feb 18  2024 Music
+drwxr-xr-x 2 johnny johnny 4096 Feb 18  2024 Public
+drwxr-xr-x 2 johnny johnny 4096 Feb 18  2024 Videos
+
+╔══════════╣ Files inside others home (limit 20)
+                                                                                                                                                                                             
+╔══════════╣ Searching installed mail applications
+                                                                                                                                                                                             
+╔══════════╣ Mails (limit 50)
+                                                                                                                                                                                             
+╔══════════╣ Backup folders
+drwxr-xr-x 2 root root 4096 Apr 24  2024 /var/backups                                                                                                                                        
+total 536
+-rw-r--r-- 1 root root  30720 Apr 24  2024 alternatives.tar.0
+-rw-r--r-- 1 root root  17010 Mar  3  2024 apt.extended_states.0
+-rw-r--r-- 1 root root   1946 Jan 18  2024 apt.extended_states.1.gz
+-rw-r--r-- 1 root root      0 Apr 24  2024 dpkg.arch.0
+-rw-r--r-- 1 root root    186 Jan 16  2024 dpkg.diversions.0
+-rw-r--r-- 1 root root    172 Jan 18  2024 dpkg.statoverride.0
+-rw-r--r-- 1 root root 479384 Mar  3  2024 dpkg.status.0
+
+
+╔══════════╣ Backup files (limited 100)
+-rwxr-xr-x 1 root root 679 Mar  3  2024 /opt/.securebak/backup_mp3.sh                                                                                                                        
+-rwxr-xr-x 1 root root 2569 May 10  2023 /usr/libexec/dpkg/dpkg-db-backup
+-rw-r--r-- 1 root root 438702 Feb 15  2023 /usr/share/doc/manpages/Changes.old.gz
+-rw-r--r-- 1 root root 194817 Oct  9  2020 /usr/share/doc/x11-common/changelog.Debian.old.gz
+-rw-r--r-- 1 root root 355 Nov 29  2023 /usr/share/man/man1/wsrep_sst_backup.1.gz
+-rw-r--r-- 1 root root 345 Nov 29  2023 /usr/share/man/man1/wsrep_sst_mariabackup.1.gz
+-rwxr-xr-x 1 root root 3025 Nov 29  2023 /usr/bin/wsrep_sst_backup
+-rwxr-xr-x 1 root root 52288 Nov 29  2023 /usr/bin/wsrep_sst_mariabackup
+-rw-r--r-- 1 root root 138 Mar 26  2023 /usr/lib/systemd/system/dpkg-db-backup.timer
+-rw-r--r-- 1 root root 147 Mar 26  2023 /usr/lib/systemd/system/dpkg-db-backup.service
+-rw-r--r-- 1 root root 14083 Dec 30  2023 /usr/lib/modules/6.1.0-17-amd64/kernel/drivers/net/team/team_mode_activebackup.ko
+-rw-r--r-- 1 root root 14083 Feb  1  2024 /usr/lib/modules/6.1.0-18-amd64/kernel/drivers/net/team/team_mode_activebackup.ko
+-rw-r--r-- 1 root root 0 Jan 16  2024 /var/lib/systemd/deb-systemd-helper-enabled/timers.target.wants/dpkg-db-backup.timer
+-rw-r--r-- 1 root root 61 Jan 16  2024 /var/lib/systemd/deb-systemd-helper-enabled/dpkg-db-backup.timer.dsh-also
+
+╔══════════╣ Searching tables inside readable .db/.sql/.sqlite files (limit 100)
+Found /var/lib/apt/listchanges.db: Berkeley DB (Hash, version 9, native byte-order)                                                                                                          
+
+
+╔══════════╣ Web files?(output limit)
+/var/www/:                                                                                                                                                                                   
+total 12K
+drwxr-xr-x  3 root root 4.0K Jan 16  2024 .
+drwxr-xr-x 12 root root 4.0K Jan 16  2024 ..
+drwxr-xr-x  2 root root 4.0K Jan 18  2024 html
+
+/var/www/html:
+total 8.0K
+drwxr-xr-x 2 root root 4.0K Jan 18  2024 .
+drwxr-xr-x 3 root root 4.0K Jan 16  2024 ..
+
+╔══════════╣ All relevant hidden files (not in /sys/ or the ones listed in the previous check) (limit 70)
+-rw-r--r-- 1 root root 0 Jan 23 07:23 /run/network/.ifstate.lock                                                                                                                             
+-rw-r--r-- 1 root root 220 Apr 23  2023 /etc/skel/.bash_logout
+-rw------- 1 root root 0 Jan 16  2024 /etc/.pwd.lock
+-rw-r--r-- 1 root root 0 Mar 14  2023 /usr/share/dictionaries-common/site-elisp/.nosearch
+-rw-r--r-- 1 root root 654 Jul 26  2022 /usr/share/wordpress/wp-content/plugins/akismet/.htaccess
+-rw-r--r-- 1 johnny johnny 220 Jan 16  2024 /home/johnny/.bash_logout
+-rw-r--r-- 1 www-data www-data 523 Mar  3  2024 /srv/www/wordpress/.htaccess
+
+╔══════════╣ Readable files inside /tmp, /var/tmp, /private/tmp, /private/var/at/tmp, /private/var/tmp, and backup folders (limit 70)
+-rwxr-xr-x 1 johnny johnny 975444 Jan 18 05:14 /tmp/linpeas.sh                                                                                                                               
+-rw-r--r-- 1 johnny johnny 128225 Jan 23 07:35 /tmp/linpeas-output.txt
+-rw-r--r-- 1 root root 0 Apr 24  2024 /var/backups/dpkg.arch.0
+-rw-r--r-- 1 root root 30720 Apr 24  2024 /var/backups/alternatives.tar.0
+
+╔══════════╣ Searching passwords in history files
+                                                                                                                                                                                             
+╔══════════╣ Searching passwords in config PHP files
+/srv/www/wordpress/wp-admin/setup-config.php:           $pwd    = trim( wp_unslash( $_POST['pwd'] ) );                                                                                       
+/usr/share/wordpress/wp-admin/setup-config.php:         $pwd    = trim( wp_unslash( $_POST['pwd'] ) );
+/usr/share/wordpress/wp-config.php:    define('DB_USER', 'wordpress');
+
+╔══════════╣ Searching *password* or *credential* files in home (limit 70)
+/etc/pam.d/common-password                                                                                                                                                                   
+/srv/www/wordpress/_notes/securepasswords.txt
+/srv/www/wordpress/wp-admin/includes/class-wp-application-passwords-list-table.php
+/srv/www/wordpress/wp-admin/js/application-passwords.js
+/srv/www/wordpress/wp-admin/js/application-passwords.min.js
+/srv/www/wordpress/wp-admin/js/password-strength-meter.js
+/srv/www/wordpress/wp-admin/js/password-strength-meter.min.js
+  #)There are more creds/passwds files in the previous parent folder
+
+/srv/www/wordpress/wp-includes/rest-api/endpoints/class-wp-rest-application-passwords-controller.php
+/usr/bin/systemd-ask-password
+/usr/bin/systemd-tty-ask-password-agent
+/usr/lib/grub/i386-pc/legacy_password_test.mod
+/usr/lib/grub/i386-pc/password.mod
+/usr/lib/grub/i386-pc/password_pbkdf2.mod
+/usr/lib/mysql/plugin/password_reuse_check.so
+/usr/lib/mysql/plugin/simple_password_check.so
+/usr/lib/systemd/systemd-reply-password
+/usr/lib/systemd/system/multi-user.target.wants/systemd-ask-password-wall.path
+/usr/lib/systemd/system/sysinit.target.wants/systemd-ask-password-console.path
+/usr/lib/systemd/system/systemd-ask-password-console.path
+/usr/lib/systemd/system/systemd-ask-password-console.service
+/usr/lib/systemd/system/systemd-ask-password-wall.path
+/usr/lib/systemd/system/systemd-ask-password-wall.service
+  #)There are more creds/passwds files in the previous parent folder
+
+/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/mysql_clear_password.so
+/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/sha256_password.so
+/usr/share/doc/apache2-doc/manual/da/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/de/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/en/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/es/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/fr/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/ja/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/ko/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/pt-br/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/ru/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/tr/misc/password_encryptions.html
+/usr/share/doc/apache2-doc/manual/zh-cn/misc/password_encryptions.html
+/usr/share/man/man1/systemd-ask-password.1.gz
+/usr/share/man/man1/systemd-tty-ask-password-agent.1.gz
+/usr/share/man/man7/credentials.7.gz
+/usr/share/man/man7/systemd.system-credentials.7.gz
+/usr/share/man/man8/systemd-ask-password-console.path.8.gz
+/usr/share/man/man8/systemd-ask-password-console.service.8.gz
+/usr/share/man/man8/systemd-ask-password-wall.path.8.gz
+/usr/share/man/man8/systemd-ask-password-wall.service.8.gz
+  #)There are more creds/passwds files in the previous parent folder
+
+/usr/share/pam/common-password.md5sums
+/usr/share/wordpress/wp-admin/includes/class-wp-application-passwords-list-table.php
+/usr/share/wordpress/wp-admin/js/application-passwords.js
+/usr/share/wordpress/wp-admin/js/application-passwords.min.js
+/usr/share/wordpress/wp-admin/js/password-strength-meter.js
+/usr/share/wordpress/wp-admin/js/password-strength-meter.min.js
+  #)There are more creds/passwds files in the previous parent folder
+
+/usr/share/wordpress/wp-includes/rest-api/endpoints/class-wp-rest-application-passwords-controller.php
+/var/cache/debconf/passwords.dat
+/var/lib/pam/password
+
+╔══════════╣ Checking for TTY (sudo/su) passwords in audit logs
+                                                                                                                                                                                             
+╔══════════╣ Checking for TTY (sudo/su) passwords in audit logs
+                                                                                                                                                                                             
+╔══════════╣ Searching passwords inside logs (limit 70)
+                                                                                                                                                                                             
+╔══════════╣ Checking all env variables in /proc/*/environ removing duplicates and filtering out useless env vars
+HOME=/home/johnny                                                                                                                                                                            
+LANG=en_US.UTF-8
+_=./linpeas.sh
+LISTEN_FDNAMES=dbus.socket
+LISTEN_FDS=1
+LOGNAME=johnny
+MANAGERPID=782
+MOTD_SHOWN=pam
+NOTIFY_SOCKET=/run/systemd/notify
+NOTIFY_SOCKET=/run/user/1000/systemd/notify
+OLDPWD=/
+PWD=/tmp
+SHELL=/bin/bash
+SHLVL=1
+SHLVL=2
+SSH_CLIENT=10.8.73.133 37054 22
+SSH_CONNECTION=10.8.73.133 37054 172.20.14.166 22
+SSH_TTY=/dev/pts/0
+TERM=xterm-256color
+USER=johnny
+_=/usr/bin/dd
+_=/usr/bin/grep
+XDG_RUNTIME_DIR=/run/user/1000
+
+
+                                ╔════════════════╗
+════════════════════════════════╣ API Keys Regex ╠════════════════════════════════                                                                                                           
+                                ╚════════════════╝                                                                                                                                           
+Regexes to search for API keys aren't activated, use param '-r' 
+
+
+johnny@comicstore:/tmp$ 
